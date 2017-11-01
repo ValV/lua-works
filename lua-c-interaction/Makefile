@@ -2,11 +2,17 @@
 
 CC=gcc
 CFLAGS=
-LDFLAGS=
+LDFLAGS=-llua
 
-all: lci
+BIN=lci
+LUA=script.lua
+
+all: $(BIN)
+
+run: all
+	eval ./$(BIN) $(LUA)
 
 .PHONY: clean
 
 clean:
-	rm -f lci
+	@rm -fv $(BIN)
