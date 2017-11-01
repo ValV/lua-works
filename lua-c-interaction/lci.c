@@ -15,10 +15,6 @@
 int main(int argc, char* argv[])
 {
     FILE* script;
-    char* buffer;
-    int position;
-    int length;
-
     char line[256];
     lua_State* L;
     int error;
@@ -27,9 +23,6 @@ int main(int argc, char* argv[])
     if (argc == 2) {
         script = fopen(argv[1], "r");
         if (script) {
-            fseek(script, 0, SEEK_END);
-            length = ftell(script);
-            fseek(script, 0, SEEK_SET);
 #if LUA_VERSION_NUM < 502 /* Use lua_open() function to get lua_State */
             L = lua_open();
 #else /* Use luaL_newstate() to get lua_State (as of lua 5.3) */
@@ -53,15 +46,6 @@ int main(int argc, char* argv[])
                     lua_pop(L, 1); /* pop error message */
                 }
             }
-            /* TODO (ValV): remove after script processing implemented */
-            fseek(script, 0, SEEK_SET);
-            buffer = malloc(length);
-            if (buffer) {
-                fread(buffer, 1, length, script);
-                /* Display the contents of the script */
-                fwrite(buffer, 1, length, stdout);
-            }
-            free(buffer);
             fclose(script);
             lua_close(L);
         }

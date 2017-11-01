@@ -10,7 +10,7 @@ LUA=script.lua
 all: $(BIN)
 
 run: all
-	eval ./$(BIN) $(LUA)
+	@eval ./$(BIN) $(LUA)
 
 .PHONY: clean
 
